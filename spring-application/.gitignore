@@ -31,3 +31,5 @@ build/
 .vscode/
 /mvnw
 /mvnw.cmd
+
+*.jar
