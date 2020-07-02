@@ -2,7 +2,6 @@ package com.dsantanaleal.spring_app.entity;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
 public class User implements Serializable {
@@ -30,23 +32,31 @@ public class User implements Serializable {
 	private Long id;
 	
 	@Column
+	@NotBlank(message = "This field should not be empty")
+	@Size(min = 5, max = 8, message = "It does not match with size rules")
 	private String firstName;
 	
 	@Column
+	@NotBlank
 	private String lastName;
 	
 	@Column
+	@NotBlank(message = "This field should not be empty")
 	private String email;
 	
 	@Column
+	@NotBlank(message = "This field should not be empty")
 	private String username;
 	
 	@Column
+	@NotBlank(message = "This field should not be empty")
 	private String password;
 	
 	@Transient
+	@NotBlank(message = "This field should not be empty")
 	private String confirmarPassword;
 	
+	@Size(min = 1)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;

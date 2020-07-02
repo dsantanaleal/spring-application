@@ -3,9 +3,9 @@
 		<thead class="thead-light">
 		<tr>
 			<th scope="col">#</th>
+			<th scope="col">Username</th>
 			<th scope="col">First</th>
 			<th scope="col">Last</th>
-			<th scope="col">Username</th>
 			<th scope="col">E-mail</th>
 			<th></th>
 		</tr>
@@ -13,10 +13,10 @@
 		<tbody>
 		<tr th:each="user: ${userList}">
 			<th th:text="${user.id}"></th>
+			<td th:text="${user.username}"></td>
 			<td th:text="${user.firstName}"></td>
 			<td th:text="${user.lastName}"></td>
 			<td th:text="${user.email}"></td>
-			<td th:text="${user.username}"></td>
 			<td>
 				<a href="#"><i class="fas fa-edit"></i></a> | <a href="#"><i class="fas fa-user-times"></i></a>
 			</td>
