@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.dsantanaleal.spring_app.entity.User;
@@ -40,7 +41,7 @@ public class UserController {
 	
 	@PostMapping("/userForm")
 	public String createUser(@Valid @ModelAttribute("userForm") User user, BindingResult result, ModelMap model) {
-		if(result.hasErrors()) { 
+		if(result.hasErrors()) {
 			model.addAttribute("userForm", user);
 			model.addAttribute("formTab", "active");
 		} else {
@@ -59,6 +60,46 @@ public class UserController {
 		model.addAttribute("userList", userService.getAllUsers());
 		model.addAttribute("roles", roleRepository.findAll());
 		return "user-form/user-view";
-		
+	}
+	
+	@GetMapping("/editUser/{id}")
+	public String getEditUserForm(Model model, @PathVariable(name = "id") Long id) throws Exception {
+		User userToEdit = userService.getUserById(id);
+		model.addAttribute("userForm", userToEdit);
+		model.addAttribute("userList", userService.getAllUsers());
+		model.addAttribute("roles", roleRepository.findAll());
+		model.addAttribute("formTab", "active");
+		model.addAttribute("editMode", true);
+		return "user-form/user-view";
+	}
+	
+	@PostMapping("/editUser")
+	public String editUser(@Valid @ModelAttribute("userForm") User user, BindingResult result, ModelMap model) {
+		if(result.hasErrors()) { 
+			model.addAttribute("userForm", user);
+			model.addAttribute("formTab", "active");
+			model.addAttribute("editMode", true);
+		} else {
+			try {
+				userService.updateUser(user);
+				model.addAttribute("userForm", new User());
+				model.addAttribute("listTab", "active");
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("userForm", user);
+				model.addAttribute("formTab", "active");
+				model.addAttribute("userList", userService.getAllUsers());
+				model.addAttribute("roles", roleRepository.findAll());
+				model.addAttribute("editMode", true);
+			}
+		}
+		model.addAttribute("userList", userService.getAllUsers());
+		model.addAttribute("roles", roleRepository.findAll());
+		return "user-form/user-view";
+	}
+	
+	@GetMapping("/userForm/cancel")
+	public String cancel() {
+		return "redirect:/userForm";
 	}
 }

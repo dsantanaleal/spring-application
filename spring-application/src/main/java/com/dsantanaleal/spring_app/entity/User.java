@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.dsantanaleal.spring_app.custom.constraints.PasswordConstraint;
+
 
 @Entity
 public class User implements Serializable {
@@ -53,10 +55,9 @@ public class User implements Serializable {
 	private String password;
 	
 	@Transient
-	@NotBlank(message = "This field should not be empty")
 	private String confirmarPassword;
 	
-	@Size(min = 1)
+	@Size(min = 1, message = "The user must have at least one role")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;

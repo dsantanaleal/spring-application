@@ -36,10 +36,25 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public boolean checkPasswordMatch(User user) throws Exception {
+		if(user.getConfirmarPassword() == null || user.getConfirmarPassword().isEmpty()) {
+			throw new Exception("Confirm password is empty");
+		}
 		if(!user.getPassword().equals(user.getConfirmarPassword())) {
 			throw new Exception("Password and confirm password are not equal");
 		}
 		return true;
+	}
+	
+	public User getUserById(Long id) throws Exception {
+		return repository.findById(id).orElseThrow(Exception::new);
+	}
+	
+	@Override
+	public User updateUser(User user) throws Exception {
+		User found = getUserById(user.getId());
+		user.setPassword(found.getPassword());
+		user.setConfirmarPassword(found.getPassword());
+		return repository.save(user);
 	}
 	
 }
