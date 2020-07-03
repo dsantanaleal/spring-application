@@ -35,7 +35,6 @@ public class User implements Serializable {
 	
 	@Column
 	@NotBlank(message = "This field should not be empty")
-	@Size(min = 5, max = 8, message = "It does not match with size rules")
 	private String firstName;
 	
 	@Column
