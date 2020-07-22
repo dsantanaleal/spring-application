@@ -51,6 +51,7 @@ public class User implements Serializable {
 	
 	@Column
 	@NotBlank(message = "This field should not be empty")
+	@PasswordConstraint
 	private String password;
 	
 	@Transient
