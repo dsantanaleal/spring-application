@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public User getUserById(Long id) throws Exception {
-		return repository.findById(id).orElseThrow(Exception::new);
+		return repository.findById(id).orElseThrow(() -> new Exception("El usuario no existe. "));
 	}
 	
 	@Override
@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
 		return repository.save(user);
 	}
 	
+	@Override
+	public void deleteUser(Long id) throws Exception {
+		User user = getUserById(id);
+		repository.delete(user);
+	}
 }

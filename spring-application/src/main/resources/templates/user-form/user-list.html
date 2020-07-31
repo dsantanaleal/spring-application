@@ -19,9 +19,17 @@
 			<td th:text="${user.email}"></td>
 			<td>
 				<a href="#" th:href="@{'/editUser/' + ${user.id}}"><i class="fas fa-edit"></i></a> | 
-				<a href="#"><i class="fas fa-user-times"></i></a>
+				<a href="#" th:onclick="'deleteUser(' + ${user.id} + ')'"><i class="fas fa-user-times"></i></a>
 			</td>
 		</tr>
 		</tbody>
 	</table>
 </div>
+<div class="alert alert-danger text-center" th:if="${listErrorMessage}" th:text="${listErrorMessage}">Error Message</div>
+<script>
+	function deleteUser(id) {
+		if(confirm("Do you want to delete the user?")) {
+			window.location = "/deleteUser/" + id;
+		}
+	}
+</script>
